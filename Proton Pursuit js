@@ -1,0 +1,57 @@
+// Proton Pursuit JS (short)
+const game = document.querySelector(".game");
+const player = document.querySelector(".player");
+const hudScore = document.querySelector("#score");
+let score = 0, keys = {};
+
+// Player movement
+document.addEventListener("keydown", e => keys[e.key] = true);
+document.addEventListener("keyup", e => keys[e.key] = false);
+
+function movePlayer(){
+  let rect = player.getBoundingClientRect();
+  if(keys["ArrowLeft"] && rect.left > game.offsetLeft+10) 
+    player.style.left = player.offsetLeft - 6 + "px";
+  if(keys["ArrowRight"] && rect.right < game.offsetLeft+game.offsetWidth-10) 
+    player.style.left = player.offsetLeft + 6 + "px";
+  if(keys["ArrowUp"] && rect.top > game.offsetTop+50) 
+    player.style.top = player.offsetTop - 6 + "px";
+  if(keys["ArrowDown"] && rect.bottom < game.offsetTop+game.offsetHeight-10) 
+    player.style.top = player.offsetTop + 6 + "px";
+}
+
+// Spawn proton
+function spawnProton(){
+  let p = document.createElement("div");
+  p.className="proton";
+  p.style.left = Math.random()*(game.clientWidth-30)+"px";
+  p.style.top = "-40px";
+  game.appendChild(p);
+}
+
+// Collision check
+function checkCollision(a,b){
+  let ar=a.getBoundingClientRect(), br=b.getBoundingClientRect();
+  return !(ar.right<br.left||ar.left>br.right||ar.bottom<br.top||ar.top>br.bottom);
+}
+
+// Game loop
+function loop(){
+  movePlayer();
+  document.querySelectorAll(".proton").forEach(p=>{
+    p.style.top = p.offsetTop+4+"px";
+    if(checkCollision(player,p)){
+      score++;
+      hudScore.textContent=score;
+      p.remove();
+    }
+    if(p.offsetTop>game.clientHeight) p.remove();
+  });
+  requestAnimationFrame(loop);
+}
+
+// Start
+player.style.position="absolute";
+player.style.left="400px"; player.style.top="400px";
+setInterval(spawnProton,1200);
+loop();
