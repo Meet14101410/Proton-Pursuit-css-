@@ -1,0 +1,125 @@
+/* Proton Pursuit — short CSS */
+:root{
+  --bg:#071029; --panel:#0f1724; --accent:#ffcc00; --player:#4fe3a1; --proton:#ff5c7a;
+  --shadow: rgba(0,0,0,.5);
+  --glass: rgba(255,255,255,.03);
+  --radius: 12px;
+  font-family: Inter, system-ui, Arial, sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background: linear-gradient(180deg,var(--bg) 0%, #071a3a 100%);
+  color:#e6eef8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Game stage */
+.game {
+  width:900px;
+  max-width:95vw;
+  height:560px;
+  background:linear-gradient(180deg,var(--panel), #081426);
+  border-radius:16px;
+  box-shadow:0 12px 30px var(--shadow), inset 0 1px 0 rgba(255,255,255,.02);
+  position:relative;
+  overflow:hidden;
+  padding:14px;
+}
+
+/* HUD */
+.hud {
+  position:absolute;
+  top:12px; left:14px; right:14px;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  pointer-events:none;
+}
+.hud .panel{
+  background:var(--glass);
+  padding:8px 12px;
+  border-radius:10px;
+  backdrop-filter: blur(6px);
+  font-weight:600;
+  font-size:14px;
+  color:#dbeaf6;
+  box-shadow:0 6px 14px rgba(2,6,23,.45);
+}
+
+/* Player */
+.player {
+  width:56px; height:56px;
+  border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, #7ff2d0, var(--player));
+  position:absolute;
+  left:calc(50% - 28px);
+  bottom:80px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 24px rgba(79,227,161,.18), 0 2px 6px rgba(0,0,0,.6);
+  transform:translateZ(0);
+}
+
+/* Player thruster glow */
+.player::after{
+  content:"";
+  position:absolute;
+  bottom:-10px;
+  width:40px; height:18px;
+  border-radius:50%;
+  filter:blur(8px);
+  background:linear-gradient(90deg,#4fe3a1, rgba(79,227,161,.35));
+  opacity:.9;
+  transform:translateY(6px);
+}
+
+/* Proton (collectible) */
+.proton {
+  width:28px; height:28px;
+  border-radius:50%;
+  background: conic-gradient(from 200deg, #fff6f6, #ff9aa2 40%, #ff5c7a 100%);
+  position:absolute;
+  box-shadow:0 6px 14px rgba(255,92,122,.18);
+  animation: float 2.4s ease-in-out infinite;
+}
+
+/* Obstacle */
+.obstacle {
+  width:80px; height:18px;
+  background:linear-gradient(90deg,#23314a,#172439);
+  border-radius:10px;
+  position:absolute;
+  box-shadow:0 8px 18px rgba(0,0,0,.45);
+  transform-origin:center;
+}
+
+/* Simple particle trail */
+.trail {
+  position:absolute;
+  width:6px; height:6px;
+  border-radius:50%;
+  background:rgba(255,255,255,.06);
+  filter:blur(1px);
+}
+
+/* Animations */
+@keyframes float { 
+  0%{transform:translateY(0)} 
+ 50%{transform:translateY(-10px)} 
+100%{transform:translateY(0)} 
+}
+@keyframes pulse {
+  0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}
+}
+
+/* Small responsive tweaks */
+@media (max-width:640px){
+  .game{height:460px;padding:10px}
+  .player{width:44px;height:44px;left:calc(50% - 22px)}
+  .hud .panel{font-size:12px;padding:6px 10px}
+}
